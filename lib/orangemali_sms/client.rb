@@ -1,6 +1,6 @@
-# requirements
-require 'faraday'
-require "exceptions"
+#requirements
+#require 'faraday'
+#require "exceptions"
 
 module OrangemaliSms
     class Client
