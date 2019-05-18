@@ -1,16 +1,19 @@
 #requirements
-#require 'faraday'
-#require "exceptions"
+require "exceptions"
+require_relative "interceptor"
+require_relative "message"
 
 module OrangemaliSms
     class Client
-        def initialize()
-        end
+        include OrangeMaliSms::HttpInterceptor
 
-        def authentication
-        end
+        def send_sms(recipient_phone_number, body)
+            message = {}
+            message.recipient_phone_number = recipient_phone_number
+            message.body = body
 
-        def send_sms()
+            post(OrangeMaliSms.configuration.send_sms_endpoint, message)
+               
         end
     end
 end
