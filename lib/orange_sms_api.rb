@@ -1,7 +1,7 @@
-require "orangemali_sms/version"
-require "orangemali_sms/configuration"
+require "orange_sms_api/version"
+require "orange_sms_api/configuration"
 
-module OrangemaliSms
+module OrangeSmsApi
   
   class << self
       attr_accessor :configuration

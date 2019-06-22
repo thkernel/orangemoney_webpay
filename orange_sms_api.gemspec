@@ -1,16 +1,16 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "orangemali_sms/version"
+require "orange_sms_api/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "orangemali_sms"
-  spec.version       = OrangemaliSms::VERSION
+  spec.name          = "orange_sms_api"
+  spec.version       = OrangeSmsApi::VERSION
   spec.authors       = ["thkernel"]
   spec.email         = ["salut.amos@gmail.com"]
 
-  spec.summary       = %q{OrangeMali SMS gateway.}
-  spec.description   = %q{This gem provide a gateway to send SMS through OrangeMali operator network.}
+  spec.summary       = %q{Orange SMS gateway.}
+  spec.description   = %q{This gem provide a gateway to send SMS through Orange operator network.}
   spec.homepage      = "https://github.com/thkernel"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

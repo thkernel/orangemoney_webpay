@@ -1,4 +1,4 @@
-module OrangemaliSms
+module OrangeSmsApi
     class Configuration
         attr_accessor :authorization_header, 
         :base_url, 
