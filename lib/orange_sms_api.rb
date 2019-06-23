@@ -1,5 +1,6 @@
 require "orange_sms_api/version"
 require "orange_sms_api/configuration"
+require "orange_sms_api/client"
 
 module OrangeSmsApi
   
