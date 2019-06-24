@@ -44,7 +44,8 @@ module OrangeSmsApi
              
 
             if OrangeSmsApi.configuration.base_url.present?
-
+                get_token
+                
                 # Inialize a new connection.
                 conn = Faraday.new(OrangeSmsApi.configuration.base_url) 
 
