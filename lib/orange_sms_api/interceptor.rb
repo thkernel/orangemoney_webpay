@@ -19,7 +19,7 @@ module OrangeSmsApi
 
             # Making a http post request
             response =  conn.post do |req|
-                req.url  OrangeSmsApi.configuration.authenticate_endpoint
+                req.url  OrangeSmsApi.configuration.authentication_endpoint
                 req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
                 req.headers['Authorization'] = OrangeSmsApi.configuration.authorization
             end
@@ -50,7 +50,7 @@ module OrangeSmsApi
 
                 response =  conn.post do |req|
                     req.url  endpoint + "/tel%3A%2B#{OrangeSmsApi.configuration.dev_phone_number}/requests"
-                    req.headers['Content-Type'] = 'application/js'
+                    req.headers['Content-Type'] = 'application/json'
                     req.headers['Authorization'] = 'Bearer ' + OrangeSmsApi.configuration.access_token
                     req.body = payload.to_json
                 end
