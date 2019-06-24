@@ -20,7 +20,7 @@ module OrangeSmsApi
 
             # Making a http post request
             response =  conn.post do |req|
-                req.url = OrangeSmsApi.configuration.authenticate_endpoint
+                req.url  OrangeSmsApi.configuration.authenticate_endpoint
                 req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
                 req.headers['Authorization'] = OrangeSmsApi.configuration.authorization
             end
