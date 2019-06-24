@@ -22,6 +22,7 @@ module OrangeSmsApi
                 req.url  OrangeSmsApi.configuration.authentication_endpoint
                 req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
                 req.headers['Authorization'] = OrangeSmsApi.configuration.authorization_header
+                req.body = "grant_type=client_credentials"
             end
 
            if response.status == 200
