@@ -11,8 +11,7 @@ module OrangeSmsApi
         def get_token
 
             # Inialize a new connection.
-            conn = Faraday.new(
-                url: OrangeSmsApi.configuration.base_url, 
+            conn = Faraday.new(OrangeSmsApi.configuration.base_url, 
                 ssl: {
                 ca_path: "/usr/lib/ssl/certs"}
                 )
@@ -38,7 +37,7 @@ module OrangeSmsApi
             if OrangeSmsApi.configuration.base_url.present?
 
                 # Inialize a new connection.
-                conn = Faraday.new(url: OrangeSmsApi.configuration.base_url) 
+                conn = Faraday.new(OrangeSmsApi.configuration.base_url) 
 
                 payload = {:outboundSMSMessageRequest => { 
                             :address =>  "tel:+#{message[:recipient_phone_number]}" , 
@@ -50,7 +49,7 @@ module OrangeSmsApi
                     }
 
                 response =  conn.post do |req|
-                    req.url = endpoint + "/tel%3A%2B#{OrangeSmsApi.configuration.dev_phone_number}/requests"
+                    req.url  endpoint + "/tel%3A%2B#{OrangeSmsApi.configuration.dev_phone_number}/requests"
                     req.headers['Content-Type'] = 'application/js'
                     req.headers['Authorization'] = 'Bearer ' + OrangeSmsApi.configuration.access_token
                     req.body = payload.to_json
