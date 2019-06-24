@@ -27,9 +27,9 @@ module OrangeSmsApi
 
            if response.status == 200
 
-            response_body = response.body
-            puts "RESPONSE BODY: #{response_body}"
-            puts "BODY PARSING: #{JSON.parse(response_body)}"
+            response_body = JSON.parse(response.body)
+            #puts "RESPONSE BODY: #{response_body}"
+            puts "BODY PARSING: #{(response_body}"
 
             OrangeSmsApi.configuration.access_token = response_body[:access_token]
                 
