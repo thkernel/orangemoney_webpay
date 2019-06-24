@@ -31,10 +31,9 @@ module OrangeSmsApi
             puts "RESPONSE BODY: #{response_body}"
             puts "BODY PARSING: #{JSON.parse(response_body)}"
 
-            OrangeSmsApi.configure do |config|
-                #config.access_token = response_body.access_token
-            end
-            #puts "LE TOKEN: #{OrangeSmsApi.configuration.access_token.to_s}"
+            OrangeSmsApi.configuration.access_token = response_body["access_token"]
+                
+            puts "LE TOKEN: #{OrangeSmsApi.configuration.access_token}"
            else
             puts "RESPONSE STATUT: #{response.status}"
 
