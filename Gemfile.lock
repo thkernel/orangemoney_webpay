@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    orange_sms_api (0.1.0)
+    orange_sms_api (0.1.1)
 
 GEM
   remote: https://rubygems.org/

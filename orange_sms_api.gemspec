@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["thkernel"]
   spec.email         = ["salut.amos@gmail.com"]
 
-  spec.summary       = %q{Orange SMS gateway.}
-  spec.description   = %q{This gem provide a gateway to send SMS through Orange operator network.}
+  spec.summary       = %q{Orange SMS API HTTP client.}
+  spec.description   = %q{Ruby client to interact with Orange SMS API.}
   spec.homepage      = "https://github.com/thkernel"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -35,8 +35,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_development_dependency 'faraday', '~> 0.15.4'
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency 'faraday', '~> 0.15.4'
  
 end

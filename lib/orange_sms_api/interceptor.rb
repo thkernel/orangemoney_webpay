@@ -1,7 +1,3 @@
-# Requirements.
-
-require "faraday"
-require "json"
 
 module OrangeSmsApi
     module HttpInterceptor
@@ -31,7 +27,7 @@ module OrangeSmsApi
 
            if response.status == 200
             response_body = response.body
-            OrangeSmsApi.configuration.token = response_body.access_token
+            OrangeSmsApi.configuration.access_token = response_body.access_token
            end
 
         end
@@ -62,9 +58,12 @@ module OrangeSmsApi
              
 
                 if response.status == 200
-                    get_token
-                else
+                    puts "LA REPONSE DE LA REQUETTE EST: #{response.status}"
+                   
                     return response
+                else
+                    puts "LA REPONSE DE LA REQUETTE EST: #{response.status}"
+                    get_token
                 end
             else
                 render text: "Invalid API Base!"
