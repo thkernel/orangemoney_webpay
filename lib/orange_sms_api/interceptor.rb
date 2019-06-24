@@ -62,13 +62,13 @@ module OrangeSmsApi
 
                 if response.status == 200
                     puts "LE STATUE DE LA REQUETTE EST: #{response.status}"
-                    puts "LA REPONSE DE LA REQUETTE EST: #{response}"
+                    puts "LA REPONSE DE LA REQUETTE EST: #{response.body}"
 
                    
                     return response
                 else
                     puts "LE STATUT DE LA REQUETTE EST: #{response.status}"
-                    puts "LA REPONSE DE LA REQUETTE EST: #{response}"
+                    puts "LA REPONSE DE LA REQUETTE EST: #{response.body}"
 
                     get_token
                 end
