@@ -10,7 +10,8 @@ module OrangeSmsApi
             message[:body] = body
 
             puts "MESSAGE: #{message}"
-            post(OrangeSmsApi.configuration.send_sms_endpoint, message)
+            #post(OrangeSmsApi.configuration.send_sms_endpoint, message)
+            get_token
                
         end
     end

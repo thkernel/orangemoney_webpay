@@ -28,8 +28,10 @@ module OrangeSmsApi
 
             response_body = response.body
             puts "RESPONSE BODY: #{response_body}"
-            OrangeSmsApi.configuration.access_token = response_body.access_token
+            puts "LE TOKEN: #{OrangeSmsApi.configuration.access_token = response_body.access_token}"
            else
+            puts "RESPONSE STATUT: #{response.status}"
+
             puts "RESPONSE BODY: #{response_body}"
            end
 
