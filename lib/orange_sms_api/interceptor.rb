@@ -21,12 +21,16 @@ module OrangeSmsApi
             response =  conn.post do |req|
                 req.url  OrangeSmsApi.configuration.authentication_endpoint
                 req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-                req.headers['Authorization'] = OrangeSmsApi.configuration.authorization
+                req.headers['Authorization'] = OrangeSmsApi.configuration.authorization_header
             end
 
            if response.status == 200
+
             response_body = response.body
+            puts "RESPONSE BODY: #{response_body}"
             OrangeSmsApi.configuration.access_token = response_body.access_token
+           else
+            puts "RESPONSE BODY: #{response_body}"
            end
 
         end
