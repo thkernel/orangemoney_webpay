@@ -28,8 +28,6 @@ module OrangeSmsApi
            if response.status == 200
 
             response_body = JSON.parse(response.body)
-            #puts "RESPONSE BODY: #{response_body}"
-            puts "BODY PARSING: #{response_body}"
 
             OrangeSmsApi.configuration.access_token = response_body["access_token"]
                 
@@ -77,7 +75,7 @@ module OrangeSmsApi
                     puts "LE STATUT DE LA REQUETTE EST: #{response.status}"
                     puts "LA REPONSE DE LA REQUETTE EST: #{response.body}"
 
-                    get_token
+                    #get_token
                 end
             else
                 render text: "Invalid API Base!"
