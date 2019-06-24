@@ -29,7 +29,7 @@ module OrangeSmsApi
 
             response_body = JSON.parse(response.body)
             #puts "RESPONSE BODY: #{response_body}"
-            puts "BODY PARSING: #{(response_body}"
+            puts "BODY PARSING: #{response_body}"
 
             OrangeSmsApi.configuration.access_token = response_body[:access_token]
                 
