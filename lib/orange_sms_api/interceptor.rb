@@ -3,47 +3,77 @@ module OrangeSmsApi
     module HttpInterceptor
 
 
-        class << self 
-            attr_accessor :api_base
+
+        def api_configured?
+            base_url = OrangeSmsApi.configuration.base_url
+            authorization_header = OrangeSmsApi.configuration.authorization_header
+            authentication_endpoint = OrangeSmsApi.configuration.authentication_endpoint
+
+            if base_url.present? && authorization_header.present? && authentication_endpoint.present?
+                return true
+            else
+                return false 
+            end
         end
 
+        def access_token_validity?
+            access_token_date = OrangeSmsApi.configuration.access_token_date if OrangeSmsApi.configuration.access_token_date
+            current_date = Time.today
+            if access_token_date.present? && (current_date - access_token_date) =< 90
+                
+                return true
+            else
+                return false
+
+            end
+        end
 
         def get_token
+            if api_configured?
+                unless access_token_validity?
+                    # Inialize a new connection.
+                    conn = Faraday.new(OrangeSmsApi.configuration.base_url, 
+                        ssl: {
+                        ca_path: "/usr/lib/ssl/certs"}
+                    )
 
-            # Inialize a new connection.
-            conn = Faraday.new(OrangeSmsApi.configuration.base_url, 
-                ssl: {
-                ca_path: "/usr/lib/ssl/certs"}
-                )
+                    # Making a http post request
+                    response =  conn.post do |req|
+                        req.url  OrangeSmsApi.configuration.authentication_endpoint
+                        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+                        req.headers['Authorization'] = OrangeSmsApi.configuration.authorization_header
+                        req.body = "grant_type=client_credentials"
+                    end
 
+                    if response.status == 200
 
-            # Making a http post request
-            response =  conn.post do |req|
-                req.url  OrangeSmsApi.configuration.authentication_endpoint
-                req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-                req.headers['Authorization'] = OrangeSmsApi.configuration.authorization_header
-                req.body = "grant_type=client_credentials"
+                        response_body = JSON.parse(response.body)
+
+                        OrangeSmsApi.configuration.access_token = response_body["access_token"]
+                        OrangeSmsApi.configuration.access_token_date = Time.today
+                    
+                        puts "LE TOKEN: #{OrangeSmsApi.configuration.access_token}"
+                        puts "TOKEN DATE: #{OrangeSmsApi.configuration.access_token_date}"
+
+                    elsif response.status == 401
+
+                        puts "RESPONSE BODY: #{response_body}"
+                    end
+
+                end
+            else
+                puts "API configuration error"
             end
-
-           if response.status == 200
-
-            response_body = JSON.parse(response.body)
-
-            OrangeSmsApi.configuration.access_token = response_body["access_token"]
-                
-            puts "LE TOKEN: #{OrangeSmsApi.configuration.access_token}"
-           else
-            puts "RESPONSE STATUT: #{response.status}"
-
-            puts "RESPONSE BODY: #{response_body}"
-           end
-
         end
+
+
+        
 
         def post(endpoint, message)
              
 
-            if OrangeSmsApi.configuration.base_url.present?
+            if api_configured? 
+                
                 get_token
                 
                 # Inialize a new connection.
@@ -67,13 +97,11 @@ module OrangeSmsApi
              
 
                 if response.status == 200
-                    puts "LE STATUE DE LA REQUETTE EST: #{response.status}"
                     puts "LA REPONSE DE LA REQUETTE EST: #{response.body}"
 
                    
                     return response
-                else
-                    puts "LE STATUT DE LA REQUETTE EST: #{response.status}"
+                elsif response.status == 401
                     puts "LA REPONSE DE LA REQUETTE EST: #{response.body}"
 
                     #get_token
