@@ -18,7 +18,7 @@ module OrangeSmsApi
 
         def access_token_validity?
             access_token_date = OrangeSmsApi.configuration.access_token_date if OrangeSmsApi.configuration.access_token_date
-            current_date = Time.today
+            current_date = Date.today
             if access_token_date.present? && (current_date - access_token_date) <= 90
                 
                 return true
@@ -50,7 +50,7 @@ module OrangeSmsApi
                         response_body = JSON.parse(response.body)
 
                         OrangeSmsApi.configuration.access_token = response_body["access_token"]
-                        OrangeSmsApi.configuration.access_token_date = Time.today
+                        OrangeSmsApi.configuration.access_token_date = Date.today
                     
                         puts "LE TOKEN: #{OrangeSmsApi.configuration.access_token}"
                         puts "TOKEN DATE: #{OrangeSmsApi.configuration.access_token_date}"
