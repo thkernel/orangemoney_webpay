@@ -1,15 +1,15 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "orange_sms_api/version"
+require "orange_money_webpay/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "orange_sms_api"
-  spec.version       = OrangeSmsApi::VERSION
+  spec.name          = "orange_money_webpay"
+  spec.version       = OrangeMoneyWebpay::VERSION
   spec.authors       = ["thkernel"]
   spec.email         = ["salut.amos@gmail.com"]
 
-  spec.summary       = %q{Orange SMS API HTTP client.}
+  spec.summary       = %q{Orange Money WebPay HTTP client.}
   spec.description   = %q{Ruby client to interact with Orange SMS API.}
   spec.homepage      = "https://github.com/thkernel"
 

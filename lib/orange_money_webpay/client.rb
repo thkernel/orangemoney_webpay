@@ -3,21 +3,21 @@
 module OrangeMoneyWebpay
     class Client
         include OrangeMoneyWebpay::HttpInterceptor
+        attr_accessor :access_token, :pay_token,:notif_token,:payment_url
 
-
-        def payment_request(amount, order_id)
+        def payment_request(order_id, amount)
 
             # Payload
             payload = Hash.new
-            payload.merchant_key = OrangeMoneyWebpay.configuration.merchant_key
-            payload.currency = OrangeMoneyWebpay.configuration.currency
-            payload.order_id = "230"
-            payload.amount = 1250
-            payload.return_url = OrangeMoneyWebpay.configuration.return_url
-            payload.cancel_url = OrangeMoneyWebpay.configuration.cancel_url
-            payload.notif_url = OrangeMoneyWebpay.configuration.notif_url
-            payload.lang = OrangeMoneyWebpay.configuration.lang
-            payload.reference = OrangeMoneyWebpay.configuration.reference
+            payload["merchant_key"] = OrangeMoneyWebpay.configuration.merchant_key
+            payload["currency"] = OrangeMoneyWebpay.configuration.currency
+            payload["order_id"] = order_id
+            payload["amount"] = amount
+            payload["return_url"] = OrangeMoneyWebpay.configuration.return_url
+            payload["cancel_url"] = OrangeMoneyWebpay.configuration.cancel_url
+            payload["notif_url"] = OrangeMoneyWebpay.configuration.notif_url
+            payload["lang"] = OrangeMoneyWebpay.configuration.lang
+            payload["reference"] = OrangeMoneyWebpay.configuration.reference
 
 
                         
@@ -32,7 +32,7 @@ module OrangeMoneyWebpay
                 req.url  OrangeMoneyWebpay.configuration.payment_request_url
                 
                 # Request header
-                req.headers['Authorization'] = "Bearer #{OrangeMoneyWebpay.configuration.access_token}"
+                req.headers['Authorization'] = "Bearer #{self.access_token}"
                 req.headers['Content-Type'] = 'application/json'
                 req.headers['Accept'] = 'application/json'
                 
@@ -44,18 +44,24 @@ module OrangeMoneyWebpay
 
                 response_body = JSON.parse(response.body)
 
-                OrangeMoneyWebpay.configuration.payment_url = response_body["payment_url"]
-                OrangeMoneyWebpay.configuration.pay_token = response_body["pay_token"]
-                OrangeMoneyWebpay.configuration.notif_token = response_body["notif_token"]
+                #OrangeMoneyWebpay.configuration.payment_url = response_body["payment_url"]
+                #OrangeMoneyWebpay.configuration.pay_token = response_body["pay_token"]
+                #OrangeMoneyWebpay.configuration.notif_token = response_body["notif_token"]
+
+                self.payment_url = response_body["payment_url"]
+                self.pay_token = response_body["pay_token"]
+                self.notif_token = response_body["notif_token"]
                 
-                return response_body["payment_url"]
+
+                
+                return response_body
 
             elsif response.status == 401
 
                 puts "RESPONSE BODY: #{response_body}"
    
             else
-               
+               puts "ERROR: #{response.inspect}"
                 puts "API configuration error"
             end
         end
@@ -82,9 +88,9 @@ module OrangeMoneyWebpay
 
                 response_body = JSON.parse(response.body)
 
-                OrangeMoneyWebpay.configuration.access_token = response_body["access_token"]
-            
-                puts "LE TOKEN: #{OrangeMoneyWebpay.configuration.access_token}"
+                #OrangeMoneyWebpay.configuration.access_token = response_body["access_token"]
+                self.access_token = response_body["access_token"]
+                puts "LE TOKEN: #{self.access_token}"
 
             elsif response.status == 401
 

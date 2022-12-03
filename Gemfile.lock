@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    orange_sms_api (0.1.2)
+    orange_money_webpay (0.1.2)
 
 GEM
   remote: https://rubygems.org/

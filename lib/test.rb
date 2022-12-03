@@ -21,18 +21,11 @@ client = OrangeMoneyWebpay::Client.new
 access_token = client.get_access_token
 puts "CONFIG: #{config.inspect}"
 
-# Payload
-payload = Hash.new
-payload["merchant_key"] = OrangeMoneyWebpay.configuration.merchant_key
-payload["currency"] = OrangeMoneyWebpay.configuration.currency
-payload["order_id"] = "SUB-2300"
-payload["amount"] = 1250
-payload["return_url"] = OrangeMoneyWebpay.configuration.return_url
-payload["cancel_url"] = OrangeMoneyWebpay.configuration.cancel_url
-payload["notif_url"] = OrangeMoneyWebpay.configuration.notif_url
-payload["lang"] = OrangeMoneyWebpay.configuration.lang
-payload["reference"] = OrangeMoneyWebpay.configuration.reference
 
-puts "PAYLOAD: #{payload.inspect}"
-payment_request = client.payment_request(payload)
+
+order_id = "FAC-#{Time.now.hour}"
+amount = 1250
+
+
+payment_request = client.payment_request(order_id, amount)
 puts "PAYMENT REQUEST: #{payment_request.inspect}"
