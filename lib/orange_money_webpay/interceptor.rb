@@ -1,13 +1,13 @@
 
-module OrangeSmsApi
+module OrangeMoneyWebpay
     module HttpInterceptor
 
 
 
         def api_configured?
-            base_url = OrangeSmsApi.configuration.base_url
-            authorization_header = OrangeSmsApi.configuration.authorization_header
-            authentication_endpoint = OrangeSmsApi.configuration.authentication_endpoint
+            base_url = OrangeMoneyWebpay.configuration.base_url
+            authorization_header = OrangeMoneyWebpay.configuration.authorization_header
+            authentication_endpoint = OrangeMoneyWebpay.configuration.authentication_endpoint
 
             if base_url.present? && authorization_header.present? && authentication_endpoint.present?
                 return true
@@ -17,7 +17,7 @@ module OrangeSmsApi
         end
 
         def access_token_validity?
-            access_token_date = OrangeSmsApi.configuration.access_token_date if OrangeSmsApi.configuration.access_token_date
+            access_token_date = OrangeMoneyWebpay.configuration.access_token_date if OrangeMoneyWebpay.configuration.access_token_date
             current_date = Date.today
             if access_token_date.present? && (current_date - access_token_date) <= 90
                 
@@ -32,16 +32,16 @@ module OrangeSmsApi
             if api_configured?
                 unless access_token_validity?
                     # Inialize a new connection.
-                    conn = Faraday.new(OrangeSmsApi.configuration.base_url, 
+                    conn = Faraday.new(OrangeMoneyWebpay.configuration.base_url, 
                         ssl: {
                         ca_path: "/usr/lib/ssl/certs"}
                     )
 
                     # Making a http post request
                     response =  conn.post do |req|
-                        req.url  OrangeSmsApi.configuration.authentication_endpoint
+                        req.url  OrangeMoneyWebpay.configuration.authentication_endpoint
                         req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-                        req.headers['Authorization'] = OrangeSmsApi.configuration.authorization_header
+                        req.headers['Authorization'] = OrangeMoneyWebpay.configuration.authorization_header
                         req.body = "grant_type=client_credentials"
                     end
 
@@ -49,11 +49,11 @@ module OrangeSmsApi
 
                         response_body = JSON.parse(response.body)
 
-                        OrangeSmsApi.configuration.access_token = response_body["access_token"]
-                        OrangeSmsApi.configuration.access_token_date = Date.today
+                        OrangeMoneyWebpay.configuration.access_token = response_body["access_token"]
+                        OrangeMoneyWebpay.configuration.access_token_date = Date.today
                     
-                        puts "LE TOKEN: #{OrangeSmsApi.configuration.access_token}"
-                        puts "TOKEN DATE: #{OrangeSmsApi.configuration.access_token_date}"
+                        puts "LE TOKEN: #{OrangeMoneyWebpay.configuration.access_token}"
+                        puts "TOKEN DATE: #{OrangeMoneyWebpay.configuration.access_token_date}"
 
                     elsif response.status == 401
 
@@ -77,11 +77,11 @@ module OrangeSmsApi
                 get_token
                 
                 # Inialize a new connection.
-                conn = Faraday.new(OrangeSmsApi.configuration.base_url) 
+                conn = Faraday.new(OrangeMoneyWebpay.configuration.base_url) 
 
                 payload = {:outboundSMSMessageRequest => { 
                             :address =>  "tel:+#{message[:recipient_phone_number]}" , 
-                            :senderAddress => "tel:+#{OrangeSmsApi.configuration.dev_phone_number}", 
+                            :senderAddress => "tel:+#{OrangeMoneyWebpay.configuration.dev_phone_number}", 
                             :outboundSMSTextMessage => { 
                                 :message => message[:body] 
                             } 
@@ -89,9 +89,9 @@ module OrangeSmsApi
                     }
 
                 response =  conn.post do |req|
-                    req.url  endpoint + "/tel%3A%2B#{OrangeSmsApi.configuration.dev_phone_number}/requests"
+                    req.url  endpoint + "/tel%3A%2B#{OrangeMoneyWebpay.configuration.dev_phone_number}/requests"
                     req.headers['Content-Type'] = 'application/json'
-                    req.headers['Authorization'] = 'Bearer ' + OrangeSmsApi.configuration.access_token
+                    req.headers['Authorization'] = 'Bearer ' + OrangeMoneyWebpay.configuration.access_token
                     req.body = payload.to_json
                 end
              
