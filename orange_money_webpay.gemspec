@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["salut.amos@gmail.com"]
 
   spec.summary       = %q{Orange Money WebPay HTTP client.}
-  spec.description   = %q{Ruby client to interact with Orange SMS API.}
+  spec.description   = %q{Ruby client to process mobile payment with Orange Money webpay API.}
   spec.homepage      = "https://github.com/thkernel"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
